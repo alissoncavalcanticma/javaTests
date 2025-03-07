@@ -4,6 +4,10 @@ spring:
     driver-class-name: org.h2.Driver
     username: admin
     password: 123
+    hikari:
+      connectionTimeout: 30000
+      maximumPoolSize: 1
+      minimum-idle: 1
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate.ddl-auto: create
@@ -16,3 +20,8 @@ spring:
     console:
       path: /h2-console
       enabled: true
+server:
+  tomcat:
+    connection-timeout: 5000
+    max-threads: 1
+    min-spare-threads: 1
