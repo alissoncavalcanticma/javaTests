@@ -1,5 +1,7 @@
 spring:
   application:
     name: api
+  profiles:
+    active: local
 server:
   port: ${PORT:8081}
