@@ -1,5 +1,6 @@
 package br.com.ctfera.api.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,5 +18,7 @@ public class UserDTO {
 
     @Column(unique = true)
     private String email;
+
+    @JsonIgnore
     private String password;
 }
