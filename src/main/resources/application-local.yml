@@ -8,6 +8,8 @@ spring:
       connectionTimeout: 30000
       maximumPoolSize: 1
       minimum-idle: 1
+      leakDetectionThreshold: 60000
+      keepaliveTime: 30000
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate.ddl-auto: create

@@ -3,7 +3,10 @@ package br.com.ctfera.api.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data //Substitui, apesar de menos performático, as anotações Getter, Setter, EqualsAndHashCode
+//@Data//Substitui, apesar de menos performático, as anotações Getter, Setter, EqualsAndHashCode
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
