@@ -13,6 +13,9 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+//    @Autowired
+//    private ModelMapper mapper;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -25,5 +28,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User create(User obj){
+        return userRepository.save(obj);
     }
 }

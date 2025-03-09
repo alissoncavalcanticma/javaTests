@@ -3,14 +3,14 @@ package br.com.ctfera.api.resources;
 import br.com.ctfera.api.domain.User;
 import br.com.ctfera.api.domain.dto.UserDTO;
 import br.com.ctfera.api.services.UserService;
+import jakarta.servlet.Servlet;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,5 +38,12 @@ public class UserResource {
                 .stream().map(x -> mapper.map(x, UserDTO.class)).collect(Collectors.toList());
         //List<UserDTO> listDTO = list.stream().map(x -> mapper.map(x, UserDTO.class)).toList(); //Também poderia ser assim
         return ResponseEntity.ok().body(listDTO);
+    }
+
+    @PostMapping
+    public ResponseEntity<UserDTO> create(@RequestBody UserDTO obj) {
+        User newObj = userService.create(mapper.map(obj, User.class));
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 }
