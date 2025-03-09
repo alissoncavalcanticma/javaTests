@@ -3,6 +3,7 @@ package br.com.ctfera.api.services.impl;
 import br.com.ctfera.api.domain.User;
 import br.com.ctfera.api.repository.UserRepository;
 import br.com.ctfera.api.services.UserService;
+import br.com.ctfera.api.services.exceptions.DataIntegrityViolationException;
 import br.com.ctfera.api.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User obj){
+        findByEmail(obj);
         return userRepository.save(obj);
+    }
+
+    //======== Métodos auxiliares ============
+    public void findByEmail(User obj){
+        Optional<User> user = userRepository.findByEmail(obj.getEmail());
+        if(user.isPresent()) {
+           throw new DataIntegrityViolationException("Cadastro já existente.");
+        }
     }
 }
