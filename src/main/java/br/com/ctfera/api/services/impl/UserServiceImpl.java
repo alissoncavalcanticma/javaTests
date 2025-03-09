@@ -43,6 +43,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public void delete(Integer id){
+        findById(id);
+        userRepository.deleteById(id);
+    }
+
 
     //======== Métodos auxiliares ============
     public void findByEmail(User obj){
