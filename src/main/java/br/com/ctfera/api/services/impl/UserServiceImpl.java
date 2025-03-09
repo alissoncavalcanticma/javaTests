@@ -37,11 +37,18 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(obj);
     }
 
+    @Override
+    public User update(User user){
+        findByEmail(user);
+        return userRepository.save(user);
+    }
+
+
     //======== Métodos auxiliares ============
     public void findByEmail(User obj){
         Optional<User> user = userRepository.findByEmail(obj.getEmail());
-        if(user.isPresent()) {
-           throw new DataIntegrityViolationException("Cadastro já existente.");
+        if(user.isPresent() && !user.get().getId().equals(obj.getId())) {
+           throw new DataIntegrityViolationException("Email já existente na base.");
         }
     }
 }

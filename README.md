@@ -6,4 +6,6 @@
 - Spring Boot
 - Spring Data JPA
 - Exceptions
+- DTO
+- Model Mapper
 - Testes
