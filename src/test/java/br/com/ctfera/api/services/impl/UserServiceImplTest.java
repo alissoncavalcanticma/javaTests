@@ -3,6 +3,7 @@ package br.com.ctfera.api.services.impl;
 import br.com.ctfera.api.domain.User;
 import br.com.ctfera.api.domain.dto.UserDTO;
 import br.com.ctfera.api.repository.UserRepository;
+import br.com.ctfera.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -68,24 +69,18 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findAll() {
+    void whenFindByIdThenReturnAnObjectNotFoundException(){
+        when(userRepository.findById(anyInt())).thenThrow(new ObjectNotFoundException("Objeto não encontrado"));
+
+        try{
+            userService.findById(ID);
+        }catch(Exception ex){
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals("Objeto não encontrado", ex.getMessage());
+        }
     }
 
-    @Test
-    void create() {
-    }
 
-    @Test
-    void update() {
-    }
-
-    @Test
-    void delete() {
-    }
-
-    @Test
-    void findByEmail() {
-    }
 
     private void startUser(){
         user = new User(ID, NAME, EMAIL, PASSWORD);
