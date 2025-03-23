@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 //Importação estática
@@ -80,7 +81,32 @@ class UserServiceImplTest {
         }
     }
 
+    @Test
+    void whenFindAllThenResultAnListOfUsersr() {
+        when(userRepository.findAll()).thenReturn(List.of(user));
 
+        List<User> response = userService.findAll();
+
+        assertNotNull(response);
+        assertEquals(1, response.size());
+        assertEquals(User.class, response.get(0).getClass());
+    }
+
+    @Test
+    void create() {
+    }
+
+    @Test
+    void update() {
+    }
+
+    @Test
+    void delete() {
+    }
+
+    @Test
+    void findByEmail() {
+    }
 
     private void startUser(){
         user = new User(ID, NAME, EMAIL, PASSWORD);
