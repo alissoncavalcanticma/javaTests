@@ -3,6 +3,7 @@ package br.com.ctfera.api.services.impl;
 import br.com.ctfera.api.domain.User;
 import br.com.ctfera.api.domain.dto.UserDTO;
 import br.com.ctfera.api.repository.UserRepository;
+import br.com.ctfera.api.services.exceptions.DataIntegrityViolationException;
 import br.com.ctfera.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -101,6 +102,18 @@ class UserServiceImplTest {
         assertNotNull(response);
         assertEquals(User.class, response.getClass());
 
+    }
+
+    @Test
+    void whenCreateThenReturnAnDataViolationException() {
+        when(userRepository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try{
+            optionalUser.get().setId(ID);
+            userService.create(user);
+        } catch (Exception e) {
+           assertEquals(DataIntegrityViolationException.class, e.getClass());
+        }
     }
 
     @Test
