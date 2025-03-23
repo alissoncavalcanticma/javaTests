@@ -3,6 +3,7 @@ package br.com.ctfera.api.services.impl;
 import br.com.ctfera.api.domain.User;
 import br.com.ctfera.api.domain.dto.UserDTO;
 import br.com.ctfera.api.repository.UserRepository;
+import br.com.ctfera.api.services.exceptions.DataIntegrityViolationException;
 import br.com.ctfera.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 //Importação estática
@@ -80,7 +82,51 @@ class UserServiceImplTest {
         }
     }
 
+    @Test
+    void whenFindAllThenResultAnListOfUsersr() {
+        when(userRepository.findAll()).thenReturn(List.of(user));
 
+        List<User> response = userService.findAll();
+
+        assertNotNull(response);
+        assertEquals(1, response.size());
+        assertEquals(User.class, response.get(0).getClass());
+    }
+
+    @Test
+    void whenCreateThenReturnSuccess() {
+        when(userRepository.save(any())).thenReturn(user);
+
+        User response = userService.create(user);
+
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+
+    }
+
+    @Test
+    void whenCreateThenReturnAnDataViolationException() {
+        when(userRepository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try{
+            optionalUser.get().setId(ID);
+            userService.create(user);
+        } catch (Exception e) {
+           assertEquals(DataIntegrityViolationException.class, e.getClass());
+        }
+    }
+
+    @Test
+    void update() {
+    }
+
+    @Test
+    void delete() {
+    }
+
+    @Test
+    void findByEmail() {
+    }
 
     private void startUser(){
         user = new User(ID, NAME, EMAIL, PASSWORD);
