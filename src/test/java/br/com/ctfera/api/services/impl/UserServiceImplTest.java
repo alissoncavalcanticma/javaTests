@@ -117,7 +117,26 @@ class UserServiceImplTest {
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnSuccess() {
+        when(userRepository.save(any())).thenReturn(user);
+
+        User response = userService.update(user);
+
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+
+    }
+
+    @Test
+    void whenUpdateThenReturnAnDataViolationException() {
+        when(userRepository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try{
+            optionalUser.get().setId(2);
+            userService.update(user);
+        } catch (Exception e) {
+            assertEquals(DataIntegrityViolationException.class, e.getClass());
+        }
     }
 
     @Test
