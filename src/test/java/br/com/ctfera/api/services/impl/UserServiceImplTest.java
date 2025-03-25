@@ -109,7 +109,7 @@ class UserServiceImplTest {
         when(userRepository.findByEmail(anyString())).thenReturn(optionalUser);
 
         try{
-            optionalUser.get().setId(ID);
+            optionalUser.get().setId(2);
             userService.create(user);
         } catch (Exception e) {
            assertEquals(DataIntegrityViolationException.class, e.getClass());
@@ -158,10 +158,6 @@ class UserServiceImplTest {
         }
     }
 
-
-    @Test
-    void findByEmail() {
-    }
 
     private void startUser(){
         user = new User(ID, NAME, EMAIL, PASSWORD);
