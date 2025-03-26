@@ -3,6 +3,7 @@ package br.com.ctfera.api.resources;
 import br.com.ctfera.api.domain.User;
 import br.com.ctfera.api.domain.dto.UserDTO;
 import br.com.ctfera.api.services.impl.UserServiceImpl;
+import org.apache.coyote.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserResourceTest {
@@ -93,11 +94,25 @@ class UserResourceTest {
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnSuccess() {
+        when(userService.update(user)).thenReturn(user);
+        //when(mapper.map(any(), any())).thenReturn(user);
+
+        ResponseEntity<UserDTO> response = userResource.update(ID, userDTO);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
-    void delete() {
+    void whenDeleteThenReturnSuccess() {
+        doNothing().when(userService).delete(anyInt());
+        ResponseEntity<UserDTO> response = userResource.delete(ID);
+
+        assertNotNull(response);
+        assertEquals(ResponseEntity.class, response.getClass());
+        verify(userService, times(1)).delete(anyInt());
+
     }
 
     private void startUser(){
