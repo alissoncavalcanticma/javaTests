@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     public void findByEmail(User obj){
         Optional<User> user = userRepository.findByEmail(obj.getEmail());
         if(user.isPresent() && !user.get().getId().equals(obj.getId())) {
-           throw new DataIntegrityViolationException("Email já existente na base.");
+           throw new DataIntegrityViolationException("Email já existente na base");
         }
     }
 }

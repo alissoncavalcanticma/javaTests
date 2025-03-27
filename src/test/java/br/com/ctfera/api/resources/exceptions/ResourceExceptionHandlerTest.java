@@ -1,5 +1,6 @@
 package br.com.ctfera.api.resources.exceptions;
 
+import br.com.ctfera.api.services.exceptions.DataIntegrityViolationException;
 import br.com.ctfera.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,5 +35,10 @@ class ResourceExceptionHandlerTest {
 
     @Test
     void whenDataIntegrityViolationException() {
+
+        ResponseEntity<StandardError> response = resourceExceptionHandler.dataIntegrityViolation(new DataIntegrityViolationException("Email já existente na base"), new MockHttpServletRequest());
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }
